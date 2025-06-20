@@ -1,2 +1,3 @@
 spa/frontend-react/node_modules
-express/node_modules
+express/frontend-app/node_modules
+express/backend-app/node_modules
