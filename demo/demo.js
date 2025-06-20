@@ -14,6 +14,6 @@ const server = createServer(async (request, response) => {
   }
 });
 
-server.listen(3000, "127.0.0.1", () => {
+server.listen(3000, "localhost", () => {
   console.log("Listening on 127.0.0.1:3000");
 });
