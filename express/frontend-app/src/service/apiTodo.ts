@@ -1,4 +1,4 @@
-import { Todo } from '../types/Todo';
+import { Todo, TodoDetail } from '../types/Todo';
 import { faker } from '@faker-js/faker';
 import { getTodo } from '../utils/todoHelper';
 
@@ -27,10 +27,37 @@ export async function getTodos(): Promise<Todo[]> {
 }
 
 export async function getTodoContentById(id: number): Promise<string> {
-  // const response = await fetch(`${BASE_URL}/${id}`);
-  // const todoData = await response.json();
+  const response = await fetch(`${BASE_URL}/${id}`);
+  const todoData = await response.json();
 
-  // return todoData.content;
+  return todoData.content;
+}
 
-  return faker.lorem.lines({ min: 1, max: 3 });
+export async function deleteTodoById(id: number) {
+  const response = await fetch(`${BASE_URL}/delete/${id}`);
+
+  const result = await response.json();
+
+  return result;
+}
+
+type UpdateTodoDetail = {
+  id: number;
+  title?: string;
+  tag?: string;
+  content?: string;
+};
+
+export async function updateTodo(todo: UpdateTodoDetail) {
+  const response = await fetch(`${BASE_URL}/update/${JSON.stringify(todo)}`);
+  const result = await response.json();
+
+  return result;
+}
+
+export async function addTodo(todo: TodoDetail) {
+  const response = await fetch(`${BASE_URL}/add/${JSON.stringify(todo)}`);
+  const result = await response.json();
+
+  return result;
 }

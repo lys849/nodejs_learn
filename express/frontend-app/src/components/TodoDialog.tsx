@@ -2,7 +2,7 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { Todo } from '../types/Todo';
+import { Todo, TodoDetail } from '../types/Todo';
 import { ToastSeverity } from '../types/ToastSeverity';
 
 function TodoDialog({
@@ -29,10 +29,10 @@ function TodoDialog({
   tag: string;
   setTag: (tag: string) => void;
   buttonLabel: string;
-  addTodo: (todo: Todo) => void;
+  addTodo: (todo: TodoDetail) => void;
   updateTodo: (
     todoId: number,
-    updateTodo: { title?: string; tag?: string }
+    updateTodo: { title?: string; tag?: string; content?: string }
   ) => void;
   showToast: (severity: ToastSeverity, summary: string) => void;
   currentTodo: Todo | null;
@@ -42,19 +42,24 @@ function TodoDialog({
 
     const formData = new FormData(event.currentTarget);
 
+    // Add todo
     if (buttonLabel.toLowerCase() === 'add') {
       addTodo({
         id: Date.now(),
         title: formData.get('title') as string,
         tag: formData.get('tag') as string,
+        content: formData.get('content') as string,
       });
 
       showToast('success', 'Successfully added todo');
+
+      // Update todo
     } else {
       if (currentTodo) {
         updateTodo(currentTodo?.id, {
           title: formData.get('title') as string,
           tag: formData.get('tag') as string,
+          content: formData.get('content') as string,
         });
 
         showToast('success', 'Successfully updated todo');

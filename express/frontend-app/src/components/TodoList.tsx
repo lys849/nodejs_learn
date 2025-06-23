@@ -14,7 +14,7 @@ export default function TodoList({
 }: {
   showToast: (severity: ToastSeverity, summary: string) => void;
   todos: Todo[];
-  deleteTodo: (id: number) => void;
+  deleteTodo: (id: number) => Promise<void>;
   handleClickEditTodo: (todo?: Todo) => void;
   searchText: string;
 }) {
@@ -57,9 +57,10 @@ export default function TodoList({
                 className="p-button-rounded"
               ></Button>
               <Button
-                onClick={() => {
+                onClick={async () => {
+                  showToast('info', 'Deleting');
+                  await deleteTodo(todo.id);
                   showToast('success', 'Deleted');
-                  deleteTodo(todo.id);
                 }}
                 icon="pi pi-trash"
                 className="p-button-rounded"
