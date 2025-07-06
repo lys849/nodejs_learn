@@ -7,6 +7,7 @@ import { parse } from "node:path";
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 const port = 3000;
 
 app.get("/todos", async (_req, res) => {
@@ -74,6 +75,23 @@ app.get("/todos/update/:updateTodo", async (req, res) => {
     message: "Todo updated successfully",
   });
 });
+
+app.post("/products", async (req, res) => {
+  const productsData = await readFile("./data.json)", "utf-8");
+  const products = JSON.parse(productsData);
+  const addProduct = req.body;
+  if (!addProduct) {
+    return res.status(400).json({
+      message: "Bad request",
+    });
+  }
+  const updatedProducts = [...products, addProduct];
+  await writeFile("./data.json", JSON.stringify(updatedProducts), "utf-8");
+  return res.status(200).json({
+    message: "Product added successfully",
+  });
+});
+
 app.listen(port, "0.0.0.0", () => {
   console.log(`Example app listening on port http://127.0.0.1:${port}`);
 });
