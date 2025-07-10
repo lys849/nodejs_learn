@@ -52,6 +52,6 @@
 //     updatedAt: false,
 //   }
 // );
-import Todos from "./model/todos.js";
+import Todos from "./sequelize-crash/models/todos.js";
 const todos = await Todos.findAll();
 console.log(todos);
